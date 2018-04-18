@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React style</title>
+    <script src="./lib/react.js"></script>
+    <script src="./lib/react-dom.js"></script>
+    <script src="./lib/browser.min.js"></script>
+    <style type="text/css">
+        #container {font-size:40px;}
+        .letter{
+            display:inline-block;
+            padding: 20px;
+            margin: 10px;
+            line-height: 80px;
+            text-align:center;
+            background:yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script type="text/babel">
+        var Letter = React.createClass({
+            render: function() {
+                var letterStyle = {
+                    display: "inline-block",
+                    padding: 20,
+                    margin: 20,
+                    fontSize: 32,
+                    color: "#000",
+                    textAlign: "center",
+                    // backgroundColor: "#ffde00"
+                    backgroundColor: this.props.bgcolor
+                };
+                return (
+                    // 此处只能使用className,在js中class是关键字
+                    /* <div className="letter">
+                        {this.props.children}
+                    </div> */
+                    // 使用style
+                    <div style={letterStyle}>
+                        {this.props.children}
+                    </div>
+                )
+            }
+        });
+        var container = document.querySelector('#container');
+        ReactDOM.render(
+            <div>
+                <Letter bgcolor="red">H</Letter>
+                <Letter bgcolor="green">E</Letter>
+                <Letter bgcolor="yellow">L</Letter>
+                <Letter bgcolor="orange">L</Letter>
+                <Letter bgcolor="purple">O</Letter>
+            </div>,
+            container
+        );
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Props</title>
+    <script src="./lib/react.js"></script>
+    <script src="./lib/react-dom.js"></script>
+    <script src="./lib/browser.min.js"></script>
+</head>
+<body>
+    <div id="container"></div>
+    <script type="text/babel">
+        var container = document.querySelector("#container")
+        // 创建一个组件
+        var Display = React.createClass({
+            render: function () {
+                return (
+                    <div>
+                        <p>{this.props.color}</p>
+                        <p>{this.props.num}</p>
+                        <p>{this.props.size}</p>
+                    </div>
+                );
+            }
+        });
+        
+        var Label = React.createClass({
+            render: function() {
+                return (
+                    // ...属性扩展操作符
+                    <Display {...this.props}/>
+                );
+            }
+        });
+
+        var Shirt = React.createClass({
+            render: function(){
+                return (
+                    // ...属性扩展操作符
+                    <Label {...this.props}/>
+                )
+            }
+        })
+
+        ReactDOM.render(
+            <div>
+                <Shirt color="deepBlue" num="3.14" size="100"/>
+            </div>,
+            container 
+        )
+    </script>
+</body>
+</html>

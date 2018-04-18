@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React-Components-lifecircle</title>
+    <script src="./lib/react.js"></script>
+    <script src="./lib/react-dom.js"></script>
+    <script src="./lib/browser.min.js"></script>
+    <style type="text/css">
+        #container #app {
+            padding:20px;
+            background:#fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script type="text/babel">
+        var container = document.querySelector('#container');
+        
+        var Counter = React.createClass({
+            componentWillReceiveProps: function(newProps) {
+                console.log('%c::: componentWillReceiveProps', 'background:green;font-size:30px;', newProps);
+                return;
+            },
+            shouldComponentUpdate: function() {
+                console.log('%c::: shouldComponentUpdate', 'background:green;font-size:30px;');
+                return true;
+            },
+            componentDidUpdate: function() {
+                console.log('%c::: componentDidUpdate', 'background:green;font-size:30px;');
+                return true;
+            },
+            render: function() {
+                var counterStyle = {
+                    fontSize: 72,
+                    fontFamily: "sans-serif",
+                    color: "#333",
+                    fontWeight: "bold"
+                }
+                return (
+                    <div style={counterStyle}>
+                        {this.props.display}
+                    </div>
+                )
+            }
+        })
+
+        var AddCount = React.createClass({
+            getDefaultProps: function() {
+                console.log('%c:::defaultProps', 'background:red;font-size:20px;')
+                // 返回值就是this.props
+                return {}
+            },
+            getInitialState: function() {
+                console.log('%c:::initialstate', 'background:red;font-size:20px;')
+                // 返回值就是this.state
+                return {
+                    count: 0
+                }
+            },
+            componentWillMount:function() {
+                console.log('%c:::willmount this.props', 'background:red;font-size:20px;', this.props)
+                console.log('%c:::willmount this.state', 'background:red;font-size:20px;', this.state)
+                console.log('%c:::willmount', 'background:red;font-size:20px;')
+            },
+            componentDidMount:function() {
+                console.log('%c:::didmount', 'background:red;font-size:20px;')
+            },
+            // 组件被删除  API ReactDOM.unmountComponentAtNode(container)
+            componentWillUnmount:function() {
+                console.log('%c:::willunmount', 'background:red;font-size:20px;')
+            },
+            shouldComponentUpdate: function(newPros, newState) {
+                console.log('%c:::shouldcomponentupdate', 'background:red;font-size:20px;', newPros, newState)
+                // 必须返回一个boolean值
+                if (newState.count < 5) {
+                    return true;
+                } else {
+                    ReactDOM.unmountComponentAtNode(container);
+                    return false;
+                }
+            },
+            componentWillUpdate: function() {
+                console.log('%c:::componentWillUpdate', 'background:red;font-size:20px;')
+            },
+            componentDidUpdate: function() {
+                console.log('%c:::componentDidUpdate', 'background:red;font-size:20px;')
+            },
+            /* 
+            componentWillReceiveProps: function() {
+                console.log('%c:::willreceiveprops', 'background:red;font-size:20px;')
+            }, */
+
+            increase: function() {
+                this.setState({
+                    count: this.state.count + 1
+                })
+            },
+            render: function() {
+                var backgroundStyle = {
+                    padding: 50,
+                    border: "#333 2px dotted",
+                    width:250,
+                    height:100,
+                    borderRadius: 10,
+                    textAlign: "center"
+                }
+                return (
+                    <div style={backgroundStyle}>
+                        <Counter display={this.state.count}/>
+                        <button onClick={this.increase}>+</button>
+                    </div>
+                )
+            }
+        })
+
+        ReactDOM.render(
+            <div>
+                <AddCount />
+            </div>,
+            container
+        );
+    </script>
+</body>
+
+</html>
